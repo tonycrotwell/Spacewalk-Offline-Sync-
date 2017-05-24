@@ -11,10 +11,12 @@
 echo "What is the directory path for placement of exported files?"
 read DIRECTORY
 
+mkdir -p $DIRECTORY/channels
+
 for channel in `spacewalk-repo-sync --list | awk '$2 !~ /\|/ && $2 !~ /=/ { print $2 }' |sort -u`
    do
-      rhn-satellite-exporter -c $channel --dir=$DIRECTORY/$channel
+      rhn-satellite-exporter -c $channel --dir=$DIRECTORY/channels/$channel
     done
-tar –czvf ISS-EXPORT-$date.tar.gz $DIRECTORY/export
+tar –czvf $DIRECTORY/ISS-EXPORT-$date.tar.gz $DIRECTORY/channels
 echo “Export Complete”
 exit 0
