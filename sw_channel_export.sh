@@ -12,6 +12,7 @@ echo "What is the directory path for placement of exported files?"
 read DIRECTORY
 
 mkdir -p $DIRECTORY/channels
+spacewalk-repo-sync --list | awk '$2 !~ /\|/ && $2 !~ /=/ { print $2 }' |sort -u > $DIRECTORY/channels/channels.list
 
 for channel in `spacewalk-repo-sync --list | awk '$2 !~ /\|/ && $2 !~ /=/ { print $2 }' |sort -u`
    do
